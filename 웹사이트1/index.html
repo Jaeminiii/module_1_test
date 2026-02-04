@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 로그인 페이지 -->
+    <div id="loginPage" class="login-container">
+        <div class="login-box">
+            <h1>Admin Login</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">사용자명</label>
+                    <input type="text" id="username" placeholder="사용자명을 입력하세요" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">비밀번호</label>
+                    <input type="password" id="password" placeholder="비밀번호를 입력하세요" required>
+                </div>
+                <button type="submit" class="btn-primary">로그인</button>
+                <p class="hint">힌트: admin / admin123</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- 대시보드 -->
+    <div id="dashboard" class="dashboard" style="display: none;">
+        <!-- 사이드바 -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>Admin Panel</h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-page="overview">
+                    <span>📊</span> 대시보드
+                </a>
+                <a href="#" class="nav-item" data-page="users">
+                    <span>👥</span> 사용자 관리
+                </a>
+                <a href="#" class="nav-item" data-page="products">
+                    <span>📦</span> 상품 관리
+                </a>
+                <a href="#" class="nav-item" data-page="settings">
+                    <span>⚙️</span> 설정
+                </a>
+                <a href="#" class="nav-item" id="logoutBtn">
+                    <span>🚪</span> 로그아웃
+                </a>
+            </nav>
+        </aside>
+
+        <!-- 메인 콘텐츠 -->
+        <main class="main-content">
+            <header class="header">
+                <h1>환영합니다, <span id="userName"></span>님</h1>
+                <div class="header-info">
+                    <span id="currentTime"></span>
+                </div>
+            </header>
+
+            <!-- 대시보드 오버뷰 -->
+            <div id="overviewPage" class="page">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-details">
+                            <h3>전체 사용자</h3>
+                            <p class="stat-number">1,234</p>
+                            <span class="stat-change positive">+12%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📦</div>
+                        <div class="stat-details">
+                            <h3>상품 수</h3>
+                            <p class="stat-number">567</p>
+                            <span class="stat-change positive">+8%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-details">
+                            <h3>총 매출</h3>
+                            <p class="stat-number">₩8,900,000</p>
+                            <span class="stat-change positive">+15%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-details">
+                            <h3>주문 수</h3>
+                            <p class="stat-number">342</p>
+                            <span class="stat-change negative">-3%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h2>최근 활동</h2>
+                    <table class="activity-table">
+                        <thead>
+                            <tr>
+                                <th>시간</th>
+                                <th>사용자</th>
+                                <th>활동</th>
+                                <th>상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>10:30</td>
+                                <td>홍길동</td>
+                                <td>새 상품 등록</td>
+                                <td><span class="badge success">완료</span></td>
+                            </tr>
+                            <tr>
+                                <td>09:15</td>
+                                <td>김철수</td>
+                                <td>주문 처리</td>
+                                <td><span class="badge success">완료</span></td>
+                            </tr>
+                            <tr>
+                                <td>08:45</td>
+                                <td>이영희</td>
+                                <td>결제 실패</td>
+                                <td><span class="badge error">실패</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 사용자 관리 페이지 -->
+            <div id="usersPage" class="page" style="display: none;">
+                <h2>사용자 관리</h2>
+                <p>사용자 목록과 관리 기능이 여기에 표시됩니다.</p>
+            </div>
+
+            <!-- 상품 관리 페이지 -->
+            <div id="productsPage" class="page" style="display: none;">
+                <h2>상품 관리</h2>
+                <p>상품 목록과 관리 기능이 여기에 표시됩니다.</p>
+            </div>
+
+            <!-- 설정 페이지 -->
+            <div id="settingsPage" class="page" style="display: none;">
+                <h2>설정</h2>
+                <p>시스템 설정이 여기에 표시됩니다.</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

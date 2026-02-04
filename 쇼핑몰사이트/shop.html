@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우신사 - 온라인 패션 스토어</title>
+    <link rel="stylesheet" href="shop-style.css">
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">우신사</h1>
+                <nav class="nav">
+                    <a href="#" class="nav-link active" data-page="ranking">랭킹</a>
+                    <a href="#" class="nav-link" data-page="outer">아우터</a>
+                    <a href="#" class="nav-link" data-page="top">상의</a>
+                    <a href="#" class="nav-link" data-page="bottom">하의</a>
+                    <a href="#" class="nav-link" data-page="shoes">신발</a>
+                </nav>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <input type="text" placeholder="상품 검색" id="searchInput">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                    <button class="user-btn" id="userBtn">
+                        👤 <span id="userName">로그인</span>
+                    </button>
+                    <button class="cart-btn" id="cartBtn">
+                        🛒 장바구니 <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 광고 배너 -->
+    <section class="ad-banners">
+        <div class="container-wide">
+            <!-- 아이유 광고 -->
+            <div class="ad-banner main-ad" onclick="showAdDetail('iu')">
+                <div class="ad-overlay">
+                    <div class="ad-content">
+                        <span class="ad-category">NEW BALANCE X IU</span>
+                        <h2 class="ad-title">2026 SPRING COLLECTION</h2>
+                        <p class="ad-description">아이유와 함께하는 봄 시즌 스타일</p>
+                        <button class="ad-btn">자세히 보기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 차은우 광고 -->
+            <div class="ad-banner secondary-ad" onclick="showAdDetail('chaeunwoo')">
+                <div class="ad-overlay">
+                    <div class="ad-content">
+                        <span class="ad-category">CALVIN KLEIN X CHA EUN WOO</span>
+                        <h2 class="ad-title">MINIMAL ESSENTIALS</h2>
+                        <p class="ad-description">차은우의 미니멀 스타일링</p>
+                        <button class="ad-btn">컬렉션 보기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 시즌 프로모션 -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>2026 겨울 시즌 오프</h2>
+                <p>인기 브랜드 최대 30% 특가!</p>
+                <button class="hero-btn">지금 쇼핑하기</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 상품 목록 -->
+    <section class="products">
+        <div class="container">
+            <div class="section-header">
+                <h2>무신사 랭킹 TOP 10</h2>
+                <div class="ranking-info">
+                    <span>🔥 실시간 인기 상품</span>
+                </div>
+            </div>
+
+            <div class="products-grid" id="productsGrid"></div>
+        </div>
+    </section>
+
+    <!-- 로그인/회원가입 모달 -->
+    <div class="modal" id="authModal">
+        <div class="modal-content auth-modal">
+            <div class="modal-header">
+                <h2 id="authTitle">로그인</h2>
+                <button class="close-btn" id="closeAuthBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- 로그인 폼 -->
+                <form id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <label>이메일</label>
+                        <input type="email" id="loginEmail" placeholder="example@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>비밀번호</label>
+                        <input type="password" id="loginPassword" placeholder="비밀번호를 입력하세요" required>
+                    </div>
+                    <button type="submit" class="auth-submit-btn">로그인</button>
+                    <p class="auth-switch">
+                        계정이 없으신가요? <a href="#" id="showSignup">회원가입</a>
+                    </p>
+                </form>
+
+                <!-- 회원가입 폼 -->
+                <form id="signupForm" class="auth-form" style="display: none;">
+                    <div class="form-group">
+                        <label>이름</label>
+                        <input type="text" id="signupName" placeholder="홍길동" required>
+                    </div>
+                    <div class="form-group">
+                        <label>이메일</label>
+                        <input type="email" id="signupEmail" placeholder="example@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>비밀번호</label>
+                        <input type="password" id="signupPassword" placeholder="8자 이상 입력" required minlength="8">
+                    </div>
+                    <div class="form-group">
+                        <label>비밀번호 확인</label>
+                        <input type="password" id="signupPasswordConfirm" placeholder="비밀번호 재입력" required>
+                    </div>
+                    <button type="submit" class="auth-submit-btn">회원가입</button>
+                    <p class="auth-switch">
+                        이미 계정이 있으신가요? <a href="#" id="showLogin">로그인</a>
+                    </p>
+                </form>
+
+                <!-- 로그인된 사용자 메뉴 -->
+                <div id="userMenu" style="display: none;">
+                    <div class="user-info">
+                        <div class="user-avatar">👤</div>
+                        <div>
+                            <h3 id="userMenuName"></h3>
+                            <p id="userMenuEmail"></p>
+                        </div>
+                    </div>
+                    <button class="logout-btn" id="logoutBtn">로그아웃</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 상품 상세 모달 -->
+    <div class="modal" id="productDetailModal">
+        <div class="modal-content product-detail-modal">
+            <button class="close-btn detail-close" id="closeDetailBtn">&times;</button>
+            <div class="modal-body">
+                <div class="product-detail-content">
+                    <div class="product-detail-image" id="detailImage"></div>
+                    <div class="product-detail-info">
+                        <div class="product-detail-category" id="detailCategory"></div>
+                        <h2 class="product-detail-name" id="detailName"></h2>
+                        <div class="product-detail-price" id="detailPrice"></div>
+                        <div class="product-detail-description" id="detailDescription"></div>
+
+                        <div class="product-detail-specs">
+                            <h3>상품 정보</h3>
+                            <ul id="detailSpecs"></ul>
+                        </div>
+
+                        <div class="product-detail-reviews">
+                            <h3>고객 리뷰</h3>
+                            <div class="review-summary">
+                                <div class="review-rating">⭐ 4.5 / 5.0</div>
+                                <div class="review-count">(128개 리뷰)</div>
+                            </div>
+                            <div class="review-list" id="reviewList"></div>
+                        </div>
+
+                        <div class="product-detail-actions">
+                            <div class="quantity-selector">
+                                <button class="qty-btn" id="detailQtyMinus">-</button>
+                                <input type="number" id="detailQuantity" value="1" min="1" readonly>
+                                <button class="qty-btn" id="detailQtyPlus">+</button>
+                            </div>
+                            <button class="add-to-cart-btn large" id="detailAddToCart">장바구니 담기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 장바구니 모달 -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>장바구니</h2>
+                <button class="close-btn" id="closeCartBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems"></div>
+                <div class="cart-empty" id="cartEmpty" style="display: none;">
+                    <p>🛒</p>
+                    <p>장바구니가 비어있습니다</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="cart-total">
+                    <span>총 금액:</span>
+                    <span class="total-price" id="totalPrice">0원</span>
+                </div>
+                <button class="checkout-btn" id="checkoutBtn">주문하기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 결제 모달 -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content payment-modal">
+            <div class="modal-header">
+                <h2>주문/결제</h2>
+                <button class="close-btn" id="closePaymentBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="payment-section">
+                    <h3>주문 상품</h3>
+                    <div id="paymentItems"></div>
+                </div>
+
+                <div class="payment-section">
+                    <h3>배송 정보</h3>
+                    <form id="deliveryForm">
+                        <div class="form-group">
+                            <label>받는 분</label>
+                            <input type="text" id="receiverName" placeholder="이름" required>
+                        </div>
+                        <div class="form-group">
+                            <label>연락처</label>
+                            <input type="tel" id="receiverPhone" placeholder="010-1234-5678" required>
+                        </div>
+                        <div class="form-group">
+                            <label>배송지 주소</label>
+                            <input type="text" id="deliveryAddress" placeholder="서울시 강남구..." required>
+                        </div>
+                        <div class="form-group">
+                            <label>배송 메모</label>
+                            <input type="text" id="deliveryMemo" placeholder="문 앞에 놓아주세요 (선택)">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="payment-section">
+                    <h3>결제 수단</h3>
+                    <div class="payment-methods">
+                        <label class="payment-method">
+                            <input type="radio" name="paymentMethod" value="card" checked>
+                            <span>💳 신용/체크카드</span>
+                        </label>
+                        <label class="payment-method">
+                            <input type="radio" name="paymentMethod" value="transfer">
+                            <span>🏦 계좌이체</span>
+                        </label>
+                        <label class="payment-method">
+                            <input type="radio" name="paymentMethod" value="phone">
+                            <span>📱 휴대폰 결제</span>
+                        </label>
+                        <label class="payment-method">
+                            <input type="radio" name="paymentMethod" value="kakao">
+                            <span>💬 카카오페이</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="payment-summary">
+                    <div class="summary-row">
+                        <span>상품 금액</span>
+                        <span id="paymentSubtotal">0원</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>배송비</span>
+                        <span id="paymentShipping">3,000원</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>최종 결제 금액</span>
+                        <span id="paymentTotal">0원</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="checkout-btn" id="finalPaymentBtn">결제하기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 주문 완료 모달 -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align: center; padding: 40px;">
+                <div style="font-size: 60px; margin-bottom: 20px;">✅</div>
+                <h2>주문이 완료되었습니다!</h2>
+                <p style="margin-top: 10px; color: #666;">주문번호: <span id="orderNumber"></span></p>
+                <p style="margin-top: 5px; color: #666;">결제 수단: <span id="orderPaymentMethod"></span></p>
+                <button class="checkout-btn" id="closeOrderBtn" style="margin-top: 30px;">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>우신사</h3>
+                    <p>최고의 패션 경험을 제공합니다</p>
+                </div>
+                <div class="footer-section">
+                    <h4>고객센터</h4>
+                    <p>1588-0000</p>
+                    <p>평일 09:00 - 18:00</p>
+                </div>
+                <div class="footer-section">
+                    <h4>회사정보</h4>
+                    <p>대표: 홍길동</p>
+                    <p>사업자번호: 123-45-67890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 우신사 WOOSHINSA. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="shop-script.js"></script>
+</body>
+</html>
